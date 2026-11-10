@@ -26,3 +26,16 @@ dist-ssr
 .env
 .env.*
 !.env.example
+.pnp
+build/
+coverage/
+.cache/
+.eslintcache
+.vite/
+Thumbs.db
+Desktop.ini
+*.tmp
+.pnp.js
+*.tsbuildinfo
+.npm/
+*.temp
