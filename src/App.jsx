@@ -1,34 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// Routes agrupa todas las rutas, Route define cada una
+// Navigate sirve para redirigir a otra ruta automaticamente
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Perfil from "./pages/Perfil";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    // React Router mira la URL y muestra solo la ruta que coincide
+    <Routes>
+      {/* Si entran a la raiz "/", los mando directo al login */}
+      {/* replace evita que "/" quede en el historial del navegador */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
+
+      {/* Rutas publicas: se pueden abrir sin token */}
+      <Route path="/login" element={<Login />} />
+
+      {/* Esta pantalla revisa por dentro si hay token, si no, vuelve al login */}
+      <Route path="/perfil" element={<Perfil />} />
+    </Routes>
   )
 }
 

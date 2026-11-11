@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // Traigo la URL del backend desde un solo lugar
 import { API_BASE_URL } from '../config/apiConfig'
+// Link crea un enlace que cambia de página sin recargar todo el sitio
+import { useNavigate, Link } from 'react-router-dom'
+
 
 function Login() {
     // Cada useState devuelve [valor actual, función para cambiarlo]
@@ -85,8 +88,14 @@ function Login() {
 
                 {/* type="submit" dispara el onSubmit del formulario */}
                 <button type="submit">Ingresar</button>
+
+                {/* Enlace para quien todavia no tiene cuenta */}
+                {/* Link se usa en vez de <a> para que React no recargue la pagina */}
+                <p className="auth-link">
+                    ¿No tienes cuenta? <Link to="/registrar">Regístrate aquí</Link>
+                </p>
             </form>
-        </div>
+        </div >
     )
 }
 
