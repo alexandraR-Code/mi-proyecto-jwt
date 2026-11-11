@@ -3,6 +3,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Perfil from "./pages/Perfil";
+import Registrar from "./pages/Registrar";
+
 
 function App() {
   return (
@@ -14,6 +16,9 @@ function App() {
 
       {/* Rutas publicas: se pueden abrir sin token */}
       <Route path="/login" element={<Login />} />
+
+      {/* Ruta pública para crear una cuenta nueva */}
+      <Route path="/registrar" element={<Registrar />} />
 
       {/* Esta pantalla revisa por dentro si hay token, si no, vuelve al login */}
       <Route path="/perfil" element={<Perfil />} />
