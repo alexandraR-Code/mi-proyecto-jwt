@@ -1,11 +1,10 @@
 // useState sirve para guardar datos que cambian (lo que se escribe en los campos)
 import { useState } from 'react'
-// useNavigate me deja cambiar de página desde el código
-import { useNavigate } from 'react-router-dom'
-// Traigo la URL del backend desde un solo lugar
-import { API_BASE_URL } from '../config/apiConfig'
 // Link crea un enlace que cambia de página sin recargar todo el sitio
 import { useNavigate, Link } from 'react-router-dom'
+// Traigo la URL del backend desde un solo lugar
+import { API_BASE_URL } from '../config/apiConfig'
+
 
 
 function Login() {
