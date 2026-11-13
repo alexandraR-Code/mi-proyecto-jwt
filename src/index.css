@@ -192,3 +192,205 @@ body {
   display: flex;
   gap: 8px;
 }
+
+/* ===== Pagina de gestion de peliculas ===== */
+
+/* Contenedor general: centra el contenido y limita el ancho */
+.gestion-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  color: #ffffff;
+}
+
+/* Titulos de la pagina (solo los hijos directos, no los de las cards) */
+.gestion-container>h2,
+.gestion-container>h3 {
+  margin: 0 0 16px;
+}
+
+/* Formulario de registro como tarjeta blanca */
+.gestion-form {
+  background: #ffffff;
+  color: var(--texto);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+/* Campos del formulario y del modal con el mismo estilo del login */
+.gestion-form input,
+.modal-contenido input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--texto);
+}
+
+/* Al seleccionar un campo resalta en azul */
+.gestion-form input:focus,
+.modal-contenido input:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+}
+
+/* Botones principales: registrar y guardar */
+.gestion-form button,
+.modal-botones button {
+  padding: 10px 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--azul);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gestion-form button:hover,
+.modal-botones button:hover {
+  background: var(--azul-oscuro);
+}
+
+/* Cancelar en gris, para distinguirlo de Guardar */
+.modal-botones button[type="button"] {
+  background: var(--gris);
+}
+
+.modal-botones button[type="button"]:hover {
+  background: #4b5563;
+}
+
+/* Textos del modal */
+.modal-contenido h3 {
+  margin: 0;
+}
+
+.modal-contenido label {
+  font-size: 0.9rem;
+  color: var(--gris);
+}
+
+/* ===== Grid de Cards ===== */
+
+/* Grid responsivo: tantas columnas como quepan, cada una de minimo 240px */
+.grid-peliculas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+/* Card: borde redondeado, sombra y efecto al pasar el mouse */
+.card-pelicula {
+  background: #ffffff;
+  color: var(--texto);
+  border-radius: 16px;
+  /* overflow hidden hace que la foto respete las esquinas redondeadas */
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover: la card sube un poco y la sombra se hace mas fuerte */
+.card-pelicula:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
+}
+
+/* Foto: misma altura en todas las cards, recortada sin deformarse */
+.card-pelicula img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Espacio gris que se ve mientras llega la foto */
+.foto-vacia {
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e5e7eb;
+  color: var(--gris);
+}
+
+/* Textos de la card */
+.card-info {
+  padding: 14px 16px 6px;
+  flex: 1;
+}
+
+.card-info h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+}
+
+.card-info p {
+  margin: 0;
+  color: var(--gris);
+  font-size: 0.95rem;
+}
+
+/* Fila de botones Editar y Eliminar */
+.card-acciones {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 16px;
+}
+
+.card-acciones button {
+  flex: 1;
+  padding: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-editar {
+  background: var(--azul);
+}
+
+.btn-editar:hover {
+  background: var(--azul-oscuro);
+}
+
+.btn-eliminar {
+  background: #dc2626;
+}
+
+.btn-eliminar:hover {
+  background: #b91c1c;
+}
+
+/* En pantallas pequenas: una sola columna y fotos mas bajas */
+@media (max-width: 600px) {
+  .grid-peliculas {
+    grid-template-columns: 1fr;
+  }
+
+  .card-pelicula img,
+  .foto-vacia {
+    height: 280px;
+  }
+
+  .gestion-form {
+    max-width: 100%;
+  }
+}
