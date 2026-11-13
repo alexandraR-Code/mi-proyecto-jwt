@@ -18,6 +18,13 @@ function GestionPeliculas() {
     const [mensaje, setMensaje] = useState('')
     const [tipo, setTipo] = useState('')
     const navigate = useNavigate()
+    // Pelicula que se esta editando (null = el modal esta cerrado)
+    const [peliculaEditar, setPeliculaEditar] = useState(null)
+    // Datos del formulario del modal
+    const [tituloEdit, setTituloEdit] = useState('')
+    const [directorEdit, setDirectorEdit] = useState('')
+    // Foto nueva, es opcional
+    const [archivoEdit, setArchivoEdit] = useState(null)
 
     // Leo el token que se guardo al hacer login
     const token = localStorage.getItem('token')
@@ -138,6 +145,59 @@ function GestionPeliculas() {
         }
     }
 
+    // Abre el modal con los datos actuales de la pelicula
+    const abrirEditar = (pelicula) => {
+        setPeliculaEditar(pelicula)
+        // Precargo los textos actuales en los campos
+        setTituloEdit(pelicula.titulo)
+        setDirectorEdit(pelicula.director)
+        // Todavia no hay foto nueva
+        setArchivoEdit(null)
+    }
+
+    // Cierra el modal sin guardar
+    const cerrarEditar = () => {
+        setPeliculaEditar(null)
+    }
+
+    // Envia los cambios al backend con PUT
+    const handleEditar = async (e) => {
+        e.preventDefault()
+
+        const formData = new FormData()
+        // Estos nombres deben ser iguales a los @RequestParam del backend
+        formData.append('titulo', tituloEdit)
+        formData.append('director', directorEdit)
+        // La foto es opcional: solo la envio si eligieron una nueva
+        if (archivoEdit) {
+            formData.append('file', archivoEdit)
+        }
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/peliculas/${peliculaEditar.id}`, {
+                method: 'PUT',
+                // Solo Authorization: el navegador pone solo el Content-Type del FormData
+                headers: { Authorization: `Bearer ${token}` },
+                body: formData,
+            })
+
+            if (response.ok) {
+                setTipo('exito')
+                setMensaje('Pelicula actualizada con exito')
+                // Cierro el modal
+                cerrarEditar()
+                // Recargo la lista; al cambiar, ListaPeliculas libera las Object URLs anteriores
+                cargarPeliculas()
+            } else {
+                setTipo('error')
+                setMensaje(await response.text())
+            }
+        } catch {
+            setTipo('error')
+            setMensaje('No se pudo conectar con el servidor')
+        }
+    }
+
     return (
         <div className="gestion-container">
             <h2>Gestion de peliculas</h2>
@@ -179,7 +239,48 @@ function GestionPeliculas() {
                     peliculas={peliculas}
                     token={token}
                     onEliminar={handleEliminar}
+                    onEditar={abrirEditar}
                 />
+            )}
+            {/* Modal: solo se dibuja cuando hay una pelicula para editar */}
+            {peliculaEditar && (
+                <div className="modal-fondo">
+                    <form className="modal-contenido" onSubmit={handleEditar}>
+                        <h3>Editar pelicula</h3>
+
+                        <input
+                            type="text"
+                            value={tituloEdit}
+                            onChange={(e) => setTituloEdit(e.target.value)}
+                            required
+                        />
+
+                        <input
+                            type="text"
+                            value={directorEdit}
+                            onChange={(e) => setDirectorEdit(e.target.value)}
+                            required
+                        />
+
+                        {/* Foto opcional: si no eligen una, se conserva la actual */}
+                        <label>Nueva foto (opcional)</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setArchivoEdit(e.target.files[0])}
+                        />
+
+                        {/* Si el backend responde con error lo muestro dentro del modal */}
+                        {tipo === 'error' && mensaje && (
+                            <p className="mensaje error">{mensaje}</p>
+                        )}
+
+                        <div className="modal-botones">
+                            <button type="submit">Guardar</button>
+                            <button type="button" onClick={cerrarEditar}>Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             )}
         </div>
     )

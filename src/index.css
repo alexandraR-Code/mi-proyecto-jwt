@@ -109,7 +109,8 @@ body {
   border-radius: 8px;
   font-size: 0.95rem;
   text-align: center;
-  overflow-wrap: anywhere;  /* parte las palabras muy largas para que no se salgan */
+  overflow-wrap: anywhere;
+  /* parte las palabras muy largas para que no se salgan */
 
 }
 
@@ -161,4 +162,33 @@ body {
   .auth-card h2 {
     font-size: 1.5rem;
   }
+}
+
+/* Fondo oscuro que cubre toda la pantalla detras del modal */
+.modal-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Cuadro blanco del modal */
+.modal-contenido {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Botones Guardar y Cancelar en fila */
+.modal-botones {
+  display: flex;
+  gap: 8px;
 }

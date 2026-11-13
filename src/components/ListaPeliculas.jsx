@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { API_BASE_URL } from '../config/apiConfig'
 
 // Recibe la lista de peliculas, el token y la funcion que elimina
-function ListaPeliculas({ peliculas, token, onEliminar }) {
+function ListaPeliculas({ peliculas, token, onEliminar, onEditar }) {
     // Guarda la direccion temporal (Object URL) de la foto de cada pelicula
     // Ejemplo: { 1: "blob:http://...", 2: "blob:http://..." }
     const [fotos, setFotos] = useState({})
@@ -66,7 +66,10 @@ function ListaPeliculas({ peliculas, token, onEliminar }) {
                     </div>
 
                     <div className="card-acciones">
-                        {/* Aqui ira el boton Editar en el siguiente paso */}
+                        {/* onClick le pasa al padre la pelicula completa para editarla */}
+                        <button className="btn-editar" onClick={() => onEditar(p)}>
+                            Editar
+                        </button>
                         {/* onClick avisa al padre cual pelicula se quiere eliminar */}
                         <button className="btn-eliminar" onClick={() => onEliminar(p.id)}>
                             Eliminar
@@ -74,6 +77,7 @@ function ListaPeliculas({ peliculas, token, onEliminar }) {
                     </div>
                 </div>
             ))}
+
         </div>
     )
 }
