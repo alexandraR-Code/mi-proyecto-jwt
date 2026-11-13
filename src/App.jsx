@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Perfil from "./pages/Perfil";
 import Registrar from "./pages/Registrar";
+import GestionPeliculas from "./pages/GestionPeliculas";
 
 
 function App() {
@@ -22,6 +23,9 @@ function App() {
 
       {/* Esta pantalla revisa por dentro si hay token, si no, vuelve al login */}
       <Route path="/perfil" element={<Perfil />} />
+
+      {/* Pagina de gestion de peliculas: por dentro revisa si hay token */}
+      <Route path="/gestion" element={<GestionPeliculas />} />
     </Routes>
   )
 }
