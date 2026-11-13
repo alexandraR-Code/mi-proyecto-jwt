@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // URL del backend, definida en un solo lugar
 import { API_BASE_URL } from '../config/apiConfig'
+import ListaPeliculas from '../components/ListaPeliculas'
 
 function GestionPeliculas() {
     // Lista de peliculas que llegan del backend (empieza vacia)
@@ -111,6 +112,31 @@ function GestionPeliculas() {
             setMensaje('No se pudo conectar con el servidor')
         }
     }
+    // Elimina una pelicula y vuelve a cargar la lista
+    const handleEliminar = async (id) => {
+        // Pido confirmacion antes de borrar
+        if (!window.confirm('Seguro que deseas eliminar esta pelicula?')) return
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/peliculas/${id}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${token}` },
+            })
+
+            if (response.ok) {
+                setTipo('exito')
+                setMensaje('Pelicula eliminada con exito')
+                // Recargo la lista para que la card desaparezca
+                cargarPeliculas()
+            } else {
+                setTipo('error')
+                setMensaje(await response.text())
+            }
+        } catch {
+            setTipo('error')
+            setMensaje('No se pudo conectar con el servidor')
+        }
+    }
 
     return (
         <div className="gestion-container">
@@ -149,14 +175,11 @@ function GestionPeliculas() {
             {peliculas.length === 0 ? (
                 <p>No hay peliculas registradas</p>
             ) : (
-                <ul>
-                    {peliculas.map((p) => (
-                        // key ayuda a React a distinguir cada elemento de la lista
-                        <li key={p.id}>
-                            {p.titulo} - {p.director}
-                        </li>
-                    ))}
-                </ul>
+                <ListaPeliculas
+                    peliculas={peliculas}
+                    token={token}
+                    onEliminar={handleEliminar}
+                />
             )}
         </div>
     )
