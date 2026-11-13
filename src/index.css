@@ -178,6 +178,7 @@ body {
 /* Cuadro blanco del modal */
 .modal-contenido {
   background: #fff;
+  color: var(--texto);
   padding: 24px;
   border-radius: 12px;
   width: 90%;
